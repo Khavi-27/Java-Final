@@ -273,6 +273,30 @@ public class TutorGUI extends JFrame {
                         break;
                     }
                 }
+                // Parse time: e.g. "10:00am-12:00pm"
+                String timePart = scheduleParts[1];
+                String[] times = timePart.split("-");
+                if (times.length == 2) {
+                    // Start time
+                    String start = times[0]; // e.g. 10:00am
+                    String end = times[1];   // e.g. 12:00pm
+
+                    // Parse start time
+                    String startHourStr = start.substring(0, start.indexOf(":"));
+                    String startMinuteStr = start.substring(start.indexOf(":") + 1, start.length() - 2);
+                    String startAMPMStr = start.substring(start.length() - 2);
+                    startHour.setSelectedItem(startHourStr);
+                    startMinute.setSelectedItem(startMinuteStr);
+                    startAMPM.setSelectedItem(startAMPMStr);
+
+                    // Parse end time
+                    String endHourStr = end.substring(0, end.indexOf(":"));
+                    String endMinuteStr = end.substring(end.indexOf(":") + 1, end.length() - 2);
+                    String endAMPMStr = end.substring(end.length() - 2);
+                    endHour.setSelectedItem(endHourStr);
+                    endMinute.setSelectedItem(endMinuteStr);
+                    endAMPM.setSelectedItem(endAMPMStr);
+                }
             }
         }
 
