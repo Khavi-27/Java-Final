@@ -93,8 +93,10 @@ class FileHelper {
     }
 }
 
-
 class LoginWindow extends JFrame {
+    private int loginAttempts = 0;
+    private static final int MAX_ATTEMPTS = 3;
+
     public LoginWindow() {
         setTitle("Tuition Management Login");
         setSize(400, 300);
@@ -123,6 +125,8 @@ class LoginWindow extends JFrame {
         JButton loginButton = new JButton("Login");
         JLabel statusLabel = new JLabel(" ");
         statusLabel.setForeground(Color.RED);
+        JLabel attemptsLabel = new JLabel("Attempts left: " + (MAX_ATTEMPTS - loginAttempts));
+        attemptsLabel.setForeground(Color.BLUE);
 
         // Layout
         gbc.gridx = 0; gbc.gridy = 0; gbc.gridwidth = 2;
@@ -146,6 +150,9 @@ class LoginWindow extends JFrame {
         gbc.gridy = 4;
         panel.add(statusLabel, gbc);
 
+        gbc.gridy = 5;
+        panel.add(attemptsLabel, gbc);
+
         // Login action
         loginButton.addActionListener(e -> {
             String username = userText.getText().trim();
@@ -163,7 +170,19 @@ class LoginWindow extends JFrame {
                     return;
                 }
             }
-            statusLabel.setText("Invalid username or password!");
+
+            loginAttempts++;
+            attemptsLabel.setText("Attempts left: " + (MAX_ATTEMPTS - loginAttempts));
+
+            if (loginAttempts >= MAX_ATTEMPTS) {
+                JOptionPane.showMessageDialog(this,
+                        "Maximum login attempts reached. Exiting application.",
+                        "Login Failed",
+                        JOptionPane.ERROR_MESSAGE);
+                System.exit(0);
+            } else {
+                statusLabel.setText("Invalid username or password! Attempts: " + loginAttempts + "/" + MAX_ATTEMPTS);
+            }
         });
 
         // Enter key login
